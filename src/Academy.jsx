@@ -128,7 +128,9 @@ function useTypewriter(text, speed = 30, isMutedRef) {
             if (prev.length >= text.length) {
               return prev;
             }
-            return prev + text.charAt(i);
+            // Use prev.length to determine the next character to append,
+            // preventing race conditions from asynchronous state batching.
+            return prev + text.charAt(prev.length);
           });
           if (text.charAt(i) !== ' ') {
             playTypeSound(isMutedRef ? isMutedRef.current : false);

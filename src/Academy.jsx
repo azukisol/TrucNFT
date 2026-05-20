@@ -243,13 +243,20 @@ const Academy = () => {
     setSubmitError('');
 
     if (currentStep === 4) {
+      const cleanAddress = evmAddress.trim();
+      if (!/^0x[0-9a-fA-F]{40}$/.test(cleanAddress)) {
+        setSubmitError("Invalid EVM address. Must start with 0x followed by 40 hex characters.");
+        setLoading(false);
+        return;
+      }
+
       try {
         const { data, error } = await supabase
           .from('academy_submissions')
           .insert([
             {
               quote_tweet_url: quoteTweetUrl,
-              wallet_address: evmAddress,
+              wallet_address: cleanAddress,
               followed_turcnft: true,
               retweeted_transmission: true
             }
@@ -972,10 +979,10 @@ const Academy = () => {
 
                   {currentStep === 4 && (
                     <div style={{ width: '100%' }}>
-                      <label style={{ color: 'var(--yellow)', marginBottom: '10px', display: 'block', fontFamily: 'var(--font-heading)', fontSize: '1.1rem' }}>ENTER EVM WALLET / ENS</label>
+                      <label style={{ color: 'var(--yellow)', marginBottom: '10px', display: 'block', fontFamily: 'var(--font-heading)', fontSize: '1.1rem' }}>ENTER EVM WALLET</label>
                       <input 
                         type="text" 
-                        placeholder="0x... or vitalik.eth"
+                        placeholder="0x..."
                         value={evmAddress}
                         onChange={(e) => setEvmAddress(e.target.value)}
                         onFocus={() => playTypeSound(isMuted)}
@@ -1038,10 +1045,10 @@ const Academy = () => {
                     className="comic-button"
                     onClick={handleNext}
                     onMouseEnter={() => !loading && playTypeSound(isMuted)}
-                    disabled={loading || (currentStep === 1 && !hasClickedFollow) || (currentStep === 2 && !hasClickedRetweet) || (currentStep === 3 && (!hasClickedQuote || quoteTweetUrl.length < 5)) || (currentStep === 4 && evmAddress.length < 5)}
+                    disabled={loading || (currentStep === 1 && !hasClickedFollow) || (currentStep === 2 && !hasClickedRetweet) || (currentStep === 3 && (!hasClickedQuote || quoteTweetUrl.length < 5)) || (currentStep === 4 && !/^0x[0-9a-fA-F]{40}$/.test(evmAddress.trim()))}
                     style={{
-                      opacity: (loading || (currentStep === 1 && !hasClickedFollow) || (currentStep === 2 && !hasClickedRetweet) || (currentStep === 3 && (!hasClickedQuote || quoteTweetUrl.length < 5)) || (currentStep === 4 && evmAddress.length < 5)) ? 0.4 : 1,
-                      pointerEvents: (loading || (currentStep === 1 && !hasClickedFollow) || (currentStep === 2 && !hasClickedRetweet) || (currentStep === 3 && (!hasClickedQuote || quoteTweetUrl.length < 5)) || (currentStep === 4 && evmAddress.length < 5)) ? 'none' : 'auto',
+                      opacity: (loading || (currentStep === 1 && !hasClickedFollow) || (currentStep === 2 && !hasClickedRetweet) || (currentStep === 3 && (!hasClickedQuote || quoteTweetUrl.length < 5)) || (currentStep === 4 && !/^0x[0-9a-fA-F]{40}$/.test(evmAddress.trim()))) ? 0.4 : 1,
+                      pointerEvents: (loading || (currentStep === 1 && !hasClickedFollow) || (currentStep === 2 && !hasClickedRetweet) || (currentStep === 3 && (!hasClickedQuote || quoteTweetUrl.length < 5)) || (currentStep === 4 && !/^0x[0-9a-fA-F]{40}$/.test(evmAddress.trim()))) ? 'none' : 'auto',
                       width: '100%',
                       padding: '22px',
                       fontSize: '1.6rem',

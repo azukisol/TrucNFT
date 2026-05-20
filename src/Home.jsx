@@ -425,7 +425,7 @@ const Home = () => {
             whiteSpace: 'nowrap',
             letterSpacing: '1px'
           }}>
-            TRAIN. UNLOCK. RISE. CONQUER.
+            THE URBAN REEF COLLECTION
           </div>
           
           {/* Desktop Nav */}

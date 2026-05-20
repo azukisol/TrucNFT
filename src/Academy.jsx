@@ -104,40 +104,52 @@ const playConfirmSound = (isMuted) => {
 function useTypewriter(text, speed = 30, isMutedRef) {
   const [displayedText, setDisplayedText] = useState('');
   const [isDone, setIsDone] = useState(false);
+  const timerRef = useRef(null);
+  const delayRef = useRef(null);
 
   useEffect(() => {
     setDisplayedText('');
     setIsDone(false);
     let i = 0;
-    let timer;
     
-    const startDelay = setTimeout(() => {
+    if (delayRef.current) clearTimeout(delayRef.current);
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    delayRef.current = setTimeout(() => {
       // Try to init audio in case it wasn't yet
       if (isMutedRef && !isMutedRef.current && !audioCtx) {
         initAudio();
       }
 
-      timer = setInterval(() => {
+      timerRef.current = setInterval(() => {
         if (i < text.length) {
-          setDisplayedText(prev => prev + text.charAt(i));
+          setDisplayedText(prev => {
+            // Prevent duplicate appending if skip has already filled it
+            if (prev.length >= text.length) {
+              return prev;
+            }
+            return prev + text.charAt(i);
+          });
           if (text.charAt(i) !== ' ') {
             playTypeSound(isMutedRef ? isMutedRef.current : false);
           }
           i++;
         } else {
-          clearInterval(timer);
+          clearInterval(timerRef.current);
           setIsDone(true);
         }
       }, speed);
     }, 300);
 
     return () => {
-      clearTimeout(startDelay);
-      if (timer) clearInterval(timer);
+      if (delayRef.current) clearTimeout(delayRef.current);
+      if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [text, speed]);
 
   const skip = () => {
+    if (delayRef.current) clearTimeout(delayRef.current);
+    if (timerRef.current) clearInterval(timerRef.current);
     setDisplayedText(text);
     setIsDone(true);
   };

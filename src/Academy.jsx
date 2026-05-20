@@ -182,6 +182,30 @@ const Academy = () => {
     isMutedRef.current = isMuted;
   }, [isMuted]);
 
+  // Preload all critical assets to eliminate transition lag
+  useEffect(() => {
+    const imagesToPreload = [
+      "/assets/bear_wave.png",
+      "/assets/bear_sunglasses.png",
+      "/assets/bear_thinking.png",
+      "/assets/shark_smirk.png",
+      "/assets/bear_thumbs_up.png",
+      "/assets/bear_peace.png",
+      "/assets/bear_scared.png",
+      "/assets/shark_sunglasses.png",
+      "/assets/shark_thumbs_up.png",
+      "/assets/hay_transparent.png",
+      "/assets/Desktop.png",
+      "/assets/Mobile1.png",
+      "/assets/noise.png"
+    ];
+
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   // Setup soundtrack instance
   useEffect(() => {
     bgmRef.current = new AcademySoundtrack();
@@ -519,10 +543,10 @@ const Academy = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSession?.image}
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              initial={{ opacity: 0, y: 15, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.4, type: 'spring' }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.15, ease: 'easeInOut' }}
               style={{ zIndex: 2, position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}
             >
               <motion.img 
@@ -550,7 +574,7 @@ const Academy = () => {
           <motion.div 
             className="dialogue-box"
             onClick={handleBoxClick}
-            key={`dialogue-${currentStep}-${currentDialogueIndex}`}
+            key={`dialogue-box-${currentStep}`}
             initial={{ scale: 0.95, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             transition={{ type: 'spring', bounce: 0.4 }}

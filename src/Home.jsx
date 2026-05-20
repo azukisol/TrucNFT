@@ -264,7 +264,7 @@ const Home = () => {
         overflow: 'hidden',
         padding: '2rem',
         backgroundColor: '#111',
-        backgroundImage: "url('/assets/desktop_bg.png')",
+        backgroundImage: "url('/assets/Desktop.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

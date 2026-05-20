@@ -261,9 +261,10 @@ body::before {
 /* Responsive Styles */
 @media (max-width: 768px) {
   .main-home-container {
-    background-image: url('/assets/mobileui.png') !important;
+    background-image: url('/assets/Mobile1.png') !important;
     background-size: cover !important;
-    background-position: center top !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
 
   /* Hide clutter for a clean, elegant mobile view */

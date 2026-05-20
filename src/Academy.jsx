@@ -956,7 +956,7 @@ const Academy = () => {
 
                   {currentStep === 2 && (
                     <motion.a 
-                      href="https://x.com/TurcNFT/status/2056392348264010076?s=20"
+                      href="https://x.com/TurcNFT/status/2057111706250387712?s=20"
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => {
@@ -1020,7 +1020,7 @@ const Academy = () => {
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                       {/* Quote Tweet Intent Card */}
                       <motion.a 
-                        href="https://x.com/TurcNFT/status/2056392348264010076?s=20"
+                        href="https://x.com/TurcNFT/status/2057111706250387712?s=20"
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => {

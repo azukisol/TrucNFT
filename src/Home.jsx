@@ -369,8 +369,8 @@ const Home = () => {
                 <a href="#" style={{ color: 'var(--neon-pink)', textDecoration: 'none', fontWeight: '900', fontSize: '1.1rem' }} className="font-heading">HOME</a>
                 <a href="#" onClick={(e) => { e.preventDefault(); navigate('/academy'); }} style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold' }} className="font-heading">ACADEMY</a>
 
-                <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEX CHAPTER (SOON)</a>
-                <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER (SOON)</a>
+                <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER I (SOON)</a>
+                <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER II (SOON)</a>
                 <div style={{ height: '1px', background: '#333', margin: '5px 0' }}></div>
                 <button 
                   onClick={toggleMusic}
@@ -446,9 +446,9 @@ const Home = () => {
             <a href="#" onClick={(e) => { e.preventDefault(); navigate('/academy'); }} style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold', cursor: 'pointer' }} className="font-heading">ACADEMY</a>
             <span style={{ color: '#555' }}>|</span>
 
-            <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEX CHAPTER (SOON)</a>
+            <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER I (SOON)</a>
             <span style={{ color: '#555' }}>|</span>
-            <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER (SOON)</a>
+            <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER II (SOON)</a>
             <span style={{ color: '#555' }}>|</span>
             <button 
               onClick={toggleMusic}

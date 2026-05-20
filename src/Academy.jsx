@@ -411,7 +411,7 @@ const Academy = () => {
             onMouseOver={(e) => { e.currentTarget.style.background = 'var(--neon-pink)'; e.currentTarget.style.color = 'var(--dark)'; }}
             onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--neon-pink)'; }}
           >
-            <ArrowLeft size={18} /> BACK
+            <ArrowLeft size={18} /> <span>BACK</span>
           </button>
           
           <h2 className="academy-nav-title font-heading" style={{ color: '#fff', margin: 0, fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '10px' }}>

@@ -259,12 +259,13 @@ body::before {
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .main-home-container {
     background-image: url('/assets/Mobile1.png') !important;
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
+    padding: 1rem !important;
   }
 
   /* Hide clutter for a clean, elegant mobile view */
@@ -472,5 +473,21 @@ body::before {
   .comic-button, .cyber-button {
     margin-top: 15px !important;
     margin-bottom: 10px !important;
+  }
+}
+
+/* Custom responsiveness helper for very small phone screens (<=480px width) */
+@media (max-width: 480px) {
+  .academy-nav-title .title-text {
+    display: none !important;
+  }
+  .academy-progress-wrapper {
+    margin: 0 5px !important;
+  }
+  .academy-back-btn span {
+    display: none !important; /* Hide 'BACK' text, keep arrow icon for ultra-compact layout */
+  }
+  .academy-back-btn {
+    padding: 6px !important;
   }
 }

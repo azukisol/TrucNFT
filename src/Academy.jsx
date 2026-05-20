@@ -177,10 +177,25 @@ const Academy = () => {
   const [isMuted, setIsMuted] = useState(false);
   const isMutedRef = useRef(isMuted);
   const bgmRef = useRef(null);
+  const [systemTime, setSystemTime] = useState(new Date().toLocaleTimeString());
 
   useEffect(() => {
     isMutedRef.current = isMuted;
   }, [isMuted]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSystemTime(new Date().toLocaleTimeString());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleShareTweet = () => {
+    playConfirmSound(isMuted);
+    const text = encodeURIComponent(`⚡ BEAR & SHARK COMMAND ENLISTED! 🐻🦈\n\nI just secured my queue position #${queuePosition} in THE URBAN REEF COLLECTION Academy!\n\nJoin the transmission at @TurcNFT! 🌊⚡`);
+    const url = `https://twitter.com/intent/tweet?text=${text}`;
+    window.open(url, '_blank');
+  };
 
   // Preload all critical assets to eliminate transition lag
   useEffect(() => {
@@ -321,69 +336,369 @@ const Academy = () => {
   const progressPercentage = (currentStep - 1) * 25 + (isSubmitted ? 25 : 0);
 
   if (isSubmitted) {
+    const shortenedAddress = evmAddress 
+      ? `${evmAddress.slice(0, 6)}...${evmAddress.slice(-4)}`
+      : '0x0000...0000';
+
     return (
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         style={{
           minHeight: '100vh',
-          background: '#000',
+          background: 'radial-gradient(circle at center, #150015 0%, #050005 100%)',
           color: '#00f0ff',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           position: 'relative',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          padding: '20px',
+          fontFamily: 'var(--font-heading)'
         }}
       >
-        <div className="crt-overlay" style={{ opacity: 0.8, background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(255, 255, 255, 0.1) 50%)' }}></div>
-        
-        <motion.div 
-          initial={{ top: '50%' }}
-          animate={{ top: '-20%' }}
-          transition={{ duration: 1, ease: 'easeIn' }}
-          className="warning-tape warning-tape-1" style={{ width: '200%', left: '-50%' }}
-        >
-          <span>SYSTEM BREACH ! SYSTEM BREACH ! SYSTEM BREACH !</span>
-        </motion.div>
-        
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.5, type: 'spring', bounce: 0.6 }}
-          style={{ zIndex: 10, textAlign: 'center' }}
-        >
-          <h1 className="font-comic" style={{
-            fontSize: '6rem',
-            color: 'var(--yellow)',
-            textShadow: '4px 4px 0px var(--neon-pink), -2px -2px 0px #fff',
-            animation: 'glitch 2s infinite'
-          }}>APPLICATION RECEIVED</h1>
-          
-          <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
-            <img src="/assets/shark_thumbs_up.png" style={{ width: '150px', filter: 'drop-shadow(0 0 20px var(--neon-blue))' }} alt="Character" />
-            <div style={{
-              background: 'rgba(0,240,255,0.1)',
-              border: '2px solid var(--neon-blue)',
-              padding: '20px',
-              borderRadius: '20px',
-              fontFamily: 'var(--font-heading)',
-              color: '#fff',
-              fontSize: '1.5rem',
-              boxShadow: '0 0 20px rgba(0,240,255,0.5)'
-            }}>
-              "System verified. You are now inside the queue. Prepare yourself..."
-            </div>
-          </div>
+        {/* Retro Grid Background */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundImage: 'linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px)',
+          backgroundSize: '30px 30px',
+          zIndex: 1,
+          pointerEvents: 'none'
+        }} />
 
+        {/* Scanlines and Flicker CRT effects */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
+          backgroundSize: '100% 4px, 6px 100%',
+          zIndex: 20,
+          pointerEvents: 'none'
+        }} />
+
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          boxShadow: 'inset 0 0 100px rgba(0,0,0,0.8)',
+          zIndex: 21,
+          pointerEvents: 'none'
+        }} />
+
+        {/* System Breach Tape (Kept from original for thematic coherence, but animated) */}
+        <motion.div 
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 0.15 }}
+          transition={{ duration: 1 }}
+          style={{ 
+            position: 'absolute',
+            top: '40px',
+            width: '100%',
+            background: 'var(--yellow)',
+            color: '#000',
+            textAlign: 'center',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            padding: '5px 0',
+            transform: 'rotate(-2deg)',
+            zIndex: 2,
+            letterSpacing: '4px',
+            boxShadow: '0 0 15px rgba(255, 213, 0, 0.4)'
+          }}
+        >
+          <span>///  CONNECTION SECURED  ///  PROTOCOL COMPLETE  ///  SYSTEM ENLISTED  ///</span>
+        </motion.div>
+
+        {/* Outer CRT monitor chassis */}
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', bounce: 0.3 }}
+          style={{
+            zIndex: 10,
+            width: '100%',
+            maxWidth: '850px',
+            background: 'rgba(10, 10, 10, 0.95)',
+            border: '5px solid #222',
+            borderRadius: '25px',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(0, 240, 255, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.05)',
+            padding: '8px',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+        >
+          {/* Inner bezel with glare */}
           <div style={{
-            marginTop: '40px',
-            fontFamily: 'var(--font-heading)',
-            fontSize: '2rem',
-            color: '#fff'
+            background: '#151518',
+            border: '4px solid #111',
+            borderRadius: '18px',
+            padding: '30px',
+            position: 'relative',
+            boxShadow: 'inset 0 0 40px rgba(0,0,0,0.9)'
           }}>
-            QUEUE POSITION: <span style={{ color: 'var(--neon-pink)' }}>#{queuePosition !== null ? queuePosition.toLocaleString() : '...'}</span>
+            {/* Screen glare highlight */}
+            <div style={{
+              position: 'absolute',
+              top: 0, left: 0, right: 0, height: '50%',
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.03) 0%, transparent 100%)',
+              pointerEvents: 'none',
+              borderRadius: '18px 18px 0 0'
+            }} />
+
+            {/* Header bar inside screen */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottom: '2px solid rgba(0, 240, 255, 0.2)',
+              paddingBottom: '15px',
+              marginBottom: '25px',
+              fontFamily: 'monospace',
+              fontSize: '0.9rem',
+              color: 'rgba(0, 240, 255, 0.7)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ width: '8px', height: '8px', background: '#00ff66', borderRadius: '50%', animation: 'blink 1.5s infinite' }}></span>
+                <span>SECURE TERMINAL : TURC_ACADEMY_V1.0</span>
+              </div>
+              <div style={{ display: 'flex', gap: '15px' }}>
+                <span>SYS_TIME: {systemTime}</span>
+                <span style={{ color: 'var(--neon-pink)' }}>[ONLINE]</span>
+              </div>
+            </div>
+
+            {/* Split layout inside CRT */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '30px',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap'
+            }}>
+              
+              {/* Left Column: Glowing Character Hologram */}
+              <div style={{
+                flex: '1 1 320px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                padding: '20px',
+                background: 'radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, transparent 70%)',
+                borderRadius: '20px',
+                border: '1px dashed rgba(0, 240, 255, 0.15)'
+              }}>
+                {/* Holo circles */}
+                <div style={{
+                  position: 'absolute',
+                  width: '180px',
+                  height: '180px',
+                  border: '1px solid rgba(0, 240, 255, 0.08)',
+                  borderRadius: '50%',
+                  animation: 'spin 12s linear infinite',
+                  zIndex: 0
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  width: '200px',
+                  height: '200px',
+                  border: '1px dashed rgba(255, 0, 127, 0.08)',
+                  borderRadius: '50%',
+                  animation: 'spin 20s linear infinite reverse',
+                  zIndex: 0
+                }} />
+
+                {/* Floating Character */}
+                <motion.img 
+                  src="/assets/shark_thumbs_up.png" 
+                  alt="Shark Thumbs Up" 
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+                  style={{ 
+                    width: '100%', 
+                    maxWidth: '180px', 
+                    filter: 'drop-shadow(0 0 25px rgba(0, 240, 255, 0.6))',
+                    zIndex: 1,
+                    position: 'relative'
+                  }} 
+                />
+
+                {/* Cybernetic Text Bubble */}
+                <div style={{
+                  marginTop: '15px',
+                  background: 'rgba(0,0,0,0.8)',
+                  border: '2px solid var(--neon-blue)',
+                  padding: '10px 15px',
+                  borderRadius: '12px',
+                  color: '#fff',
+                  fontSize: '0.95rem',
+                  textAlign: 'center',
+                  boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)',
+                  maxWidth: '220px',
+                  zIndex: 2,
+                  fontStyle: 'italic',
+                  lineHeight: '1.4'
+                }}>
+                  "Welcome to the reef, recruit. You are officially verified."
+                </div>
+              </div>
+
+              {/* Right Column: Mission Report Printout */}
+              <div style={{
+                flex: '1 1 380px',
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '15px',
+                fontFamily: 'monospace'
+              }}>
+                <h2 style={{
+                  color: 'var(--yellow)',
+                  fontSize: '1.8rem',
+                  margin: '0 0 10px 0',
+                  textShadow: '0 0 10px rgba(255, 213, 0, 0.3)',
+                  letterSpacing: '1px'
+                }}>
+                  APPLICATION SECURED
+                </h2>
+
+                {/* Hologram Receipt Box */}
+                <div style={{
+                  background: 'rgba(0, 20, 10, 0.4)',
+                  border: '2px solid rgba(0, 255, 100, 0.3)',
+                  borderRadius: '12px',
+                  padding: '20px',
+                  boxShadow: 'inset 0 0 15px rgba(0, 255, 100, 0.1)'
+                }}>
+                  <div style={{ color: '#00ff66', fontSize: '0.85rem', borderBottom: '1px dotted rgba(0, 255, 100, 0.3)', paddingBottom: '8px', marginBottom: '12px', letterSpacing: '1px' }}>
+                    ACADEMY RECORD OF INTEGRITY:
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.95rem', color: '#fff' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#888' }}>1. TWITTER_FOLLOW:</span>
+                      <span style={{ color: '#00ff66' }}>[✓] SUCCESS</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#888' }}>2. RETWEET_TRANSMISSION:</span>
+                      <span style={{ color: '#00ff66' }}>[✓] SUCCESS</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#888' }}>3. QUOTE_TWEET_URL:</span>
+                      <span style={{ color: 'var(--neon-blue)', maxWidth: '180px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {quoteTweetUrl || 'VERIFIED'}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#888' }}>4. EVM_WALLET_KEY:</span>
+                      <span style={{ color: 'var(--yellow)' }}>{shortenedAddress}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Queue Display Box */}
+                <div style={{
+                  background: 'rgba(255, 0, 127, 0.05)',
+                  border: '2px solid var(--neon-pink)',
+                  borderRadius: '12px',
+                  padding: '15px 20px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  boxShadow: '0 0 15px rgba(255, 0, 127, 0.2)'
+                }}>
+                  <div>
+                    <div style={{ color: '#888', fontSize: '0.8rem', letterSpacing: '1px' }}>GLOBAL LIST QUEUE:</div>
+                    <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: 'bold' }}>AWAITING FINAL CRITERIA</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{
+                      color: 'var(--neon-pink)',
+                      fontSize: '2.2rem',
+                      fontWeight: 'bold',
+                      textShadow: '0 0 10px var(--neon-pink)'
+                    }}>
+                      #{queuePosition !== null ? queuePosition.toLocaleString() : '...'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons: Back to Gateway & Share status */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '15px',
+              marginTop: '35px',
+              borderTop: '2px solid rgba(0, 240, 255, 0.1)',
+              paddingTop: '25px',
+              justifyContent: 'flex-end',
+              flexWrap: 'wrap'
+            }}>
+              
+              {/* Back to Gateway Button */}
+              <motion.button
+                className="comic-button"
+                onClick={() => {
+                  playClickSound(isMuted);
+                  navigate('/');
+                }}
+                style={{
+                  background: 'transparent',
+                  border: '2px solid var(--neon-blue)',
+                  color: 'var(--neon-blue)',
+                  padding: '15px 30px',
+                  fontSize: '1.1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  cursor: 'pointer',
+                  flex: '1 1 auto'
+                }}
+                whileHover={{ 
+                  scale: 1.03, 
+                  background: 'rgba(0, 240, 255, 0.1)',
+                  boxShadow: '0 0 15px rgba(0, 240, 255, 0.3)'
+                }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <ArrowLeft size={18} />
+                <span>BACK TO GATEWAY</span>
+              </motion.button>
+
+              {/* Tweet/Share Button */}
+              <motion.button
+                className="comic-button"
+                onClick={handleShareTweet}
+                style={{
+                  background: 'var(--neon-pink)',
+                  border: '2px solid var(--neon-pink)',
+                  color: 'var(--dark)',
+                  padding: '15px 30px',
+                  fontSize: '1.1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  cursor: 'pointer',
+                  flex: '1 1 auto'
+                }}
+                whileHover={{ 
+                  scale: 1.03, 
+                  boxShadow: '0 0 20px rgba(255, 0, 127, 0.5)'
+                }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <TwitterIcon size={18} color="var(--dark)" />
+                <span>TRANSMIT STATUS</span>
+              </motion.button>
+
+            </div>
           </div>
         </motion.div>
       </motion.div>

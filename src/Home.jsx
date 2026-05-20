@@ -476,7 +476,6 @@ const Home = () => {
         width: '100%',
         maxWidth: '1200px'
       }}>
-        {/* Center TV */}
         <motion.div
           className="tv-container"
           style={{
@@ -484,12 +483,7 @@ const Home = () => {
             maxWidth: '700px',
             aspectRatio: '16/10',
             height: 'auto',
-            background: 'var(--dark)',
-            borderRadius: '40px',
-            border: '10px solid #222',
-            boxShadow: '20px 20px 0px #000, inset 0 0 50px rgba(0,0,0,0.8)',
             position: 'relative',
-            padding: '20px',
             display: 'flex',
             zIndex: 16
           }}
@@ -500,13 +494,9 @@ const Home = () => {
           {/* TV Screen */}
           <div className="tv-screen-wrapper" style={{
             flex: 1,
-            background: '#000',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            position: 'relative',
-            border: '4px solid #444',
             display: 'flex',
-            boxShadow: 'inset 0 0 20px rgba(0,0,0,1)'
+            position: 'relative',
+            overflow: 'hidden'
           }}>
             {/* Screen Content - Live Stats Ticker */}
             <LiveTerminalTicker />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Volume2, VolumeX, Menu, Hourglass, Check, ChevronDown, Shield, Zap } from 'lucide-react';
+import { Volume2, VolumeX, Menu, Hourglass, Check, ChevronDown, Shield, Zap, Lock } from 'lucide-react';
 import { CyberpunkSoundtrack } from './soundtrack';
 import { supabase } from './supabaseClient';
 
@@ -368,7 +368,7 @@ const Home = () => {
                 }}
               >
                 <a href="#" style={{ color: 'var(--neon-pink)', textDecoration: 'none', fontWeight: '900', fontSize: '1.1rem' }} className="font-heading">HOME</a>
-                <a href="#" onClick={(e) => { e.preventDefault(); navigate('/academy'); }} style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold' }} className="font-heading">ACADEMY</a>
+                <span style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end' }} className="font-heading"><Lock size={14} /> ACADEMY</span>
 
                 <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER I (SOON)</a>
                 <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER II (SOON)</a>
@@ -444,7 +444,7 @@ const Home = () => {
           }}>
             <a href="#" style={{ color: 'var(--neon-pink)', textDecoration: 'none', fontWeight: 'bold' }} className="font-heading">HOME</a>
             <span style={{ color: '#555' }}>|</span>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/academy'); }} style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold', cursor: 'pointer' }} className="font-heading">ACADEMY</a>
+            <span style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed', display: 'inline-flex', alignItems: 'center', gap: '5px' }} className="font-heading"><Lock size={14} /> ACADEMY</span>
             <span style={{ color: '#555' }}>|</span>
 
             <a href="#" style={{ color: '#888', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed' }} className="font-heading">NEXT CHAPTER I (SOON)</a>
@@ -527,13 +527,18 @@ const Home = () => {
           marginTop: '25px',
           zIndex: 20,
           width: '90%',
-          maxWidth: '400px'
+          maxWidth: '400px',
+          opacity: 0.6,
+          cursor: 'not-allowed',
+          background: 'rgba(20, 20, 20, 0.95) !important',
+          boxShadow: 'none'
         }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => navigate('/academy')}
+        whileHover={{ scale: 1 }}
+        whileTap={{ scale: 1 }}
+        disabled={true}
       >
-        <span className="cyber-button-text">ENTER THE ACADEMY</span>
+        <Lock size={18} color="var(--pink)" style={{ marginRight: '8px' }} />
+        <span className="cyber-button-text" style={{ color: 'var(--pink)' }}>ACADEMY CLOSED</span>
       </motion.button>
 
     </motion.div>

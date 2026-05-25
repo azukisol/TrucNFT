@@ -180,6 +180,10 @@ const Academy = () => {
   const [systemTime, setSystemTime] = useState(new Date().toLocaleTimeString());
 
   useEffect(() => {
+    navigate('/', { replace: true });
+  }, [navigate]);
+
+  useEffect(() => {
     isMutedRef.current = isMuted;
   }, [isMuted]);
 

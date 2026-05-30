@@ -8,7 +8,7 @@ let supabaseInstance;
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn(
     "Supabase environment variables (VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY) are missing. " +
-    "Please add them in your Vercel Project Settings."
+    "Please add them in your Netlify Site Configuration / Environment Variables."
   );
   // Return a mock client that resolves empty arrays/null to prevent crash
   supabaseInstance = {

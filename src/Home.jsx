@@ -373,7 +373,6 @@ const Home = () => {
                 <a href="#" style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold', cursor: 'not-allowed', display: 'flex', alignItems: 'center', gap: '8px' }} className="font-heading" title="Academy access trial finished">ACADEMY <span style={{ fontSize: '0.7rem', background: 'rgba(0, 240, 255, 0.08)', border: '1.5px solid var(--neon-blue)', color: 'var(--neon-blue)', padding: '2px 6px', borderRadius: '4px', textShadow: '0 0 5px var(--neon-blue)', letterSpacing: '1px', fontWeight: '900' }}>FINISH</span></a>
                 <a href="#" onClick={(e) => { e.preventDefault(); navigate('/chapter-1'); }} style={{ color: '#fff', textDecoration: 'none', fontWeight: 'bold', cursor: 'pointer' }} className="font-heading">CHAPTER I</a>
 
-
                 <div style={{ height: '1px', background: '#333', margin: '5px 0' }}></div>
                 <button 
                   onClick={toggleMusic}

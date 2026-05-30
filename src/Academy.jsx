@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Repeat, MessageSquare, Wallet, CheckCircle, Play, Volume2, VolumeX, ArrowLeft } from 'lucide-react';
+import { Repeat, MessageSquare, Wallet, CheckCircle, Play, Volume2, VolumeX, ArrowLeft, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AcademySoundtrack } from './academy_soundtrack';
 import { supabase } from './supabaseClient';
+import { useWallet } from './WalletContext';
 
 const TwitterIcon = ({ size, color }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill={color} stroke="none">
@@ -161,6 +162,8 @@ function useTypewriter(text, speed = 30, isMutedRef) {
 
 const Academy = () => {
   const navigate = useNavigate();
+  const { walletAddress, isConnected, isWhitelisted, isValidating, error: walletError, connectWallet, disconnectWallet } = useWallet();
+
   const [currentStep, setCurrentStep] = useState(1);
   const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -168,6 +171,13 @@ const Academy = () => {
   const [inputValue, setInputValue] = useState('');
   const [quoteTweetUrl, setQuoteTweetUrl] = useState('');
   const [evmAddress, setEvmAddress] = useState('');
+
+  useEffect(() => {
+    if (walletAddress) {
+      setEvmAddress(walletAddress);
+    }
+  }, [walletAddress]);
+
   const [submitError, setSubmitError] = useState('');
   const [queuePosition, setQueuePosition] = useState(null);
   const [hasClickedFollow, setHasClickedFollow] = useState(false);
@@ -570,6 +580,53 @@ const Academy = () => {
             />
           </div>
           <span className="font-heading" style={{ color: '#00f0ff', fontWeight: 'bold' }}>{progressPercentage}%</span>
+        </div>
+
+        {/* Wallet connection status */}
+        <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+          {isValidating ? (
+            <span style={{ color: 'var(--neon-blue)', display: 'flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-heading)', fontWeight: 'bold', fontSize: '0.9rem' }}>
+              <RefreshCw size={16} style={{ animation: 'spin 1.5s linear infinite' }} /> CHECKING...
+            </span>
+          ) : isConnected ? (
+            <span 
+              onClick={disconnectWallet}
+              title="Click to disconnect"
+              style={{ 
+                color: isWhitelisted ? 'var(--neon-blue)' : 'var(--neon-pink)', 
+                cursor: 'pointer',
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '5px',
+                fontFamily: 'var(--font-heading)',
+                fontWeight: 'bold',
+                fontSize: '0.9rem',
+                textShadow: isWhitelisted ? '0 0 10px rgba(0, 240, 255, 0.4)' : '0 0 10px rgba(255, 0, 127, 0.4)'
+              }}
+            >
+              <Wallet size={16} /> 
+              {walletAddress.substring(0, 6)}...{walletAddress.substring(38)} 
+              {isWhitelisted ? ' [VERIFIED]' : ' [UNAUTHORIZED]'}
+            </span>
+          ) : (
+            <button 
+              onClick={connectWallet}
+              style={{ 
+                background: 'transparent', 
+                border: '2px solid var(--yellow)', 
+                borderRadius: '8px',
+                padding: '5px 12px',
+                color: 'var(--yellow)', 
+                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
+                fontFamily: 'var(--font-heading)', fontWeight: 'bold', outline: 'none',
+                transition: 'all 0.2s'
+              }}
+              onMouseOver={(e) => { e.currentTarget.style.background = 'var(--yellow)'; e.currentTarget.style.color = 'var(--dark)'; }}
+              onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--yellow)'; }}
+            >
+              <Wallet size={16} /> CONNECT
+            </button>
+          )}
         </div>
 
         {/* Mute Toggle */}

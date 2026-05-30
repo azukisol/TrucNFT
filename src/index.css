@@ -540,3 +540,32 @@ body::before {
     padding: 6px !important;
   }
 }
+
+/* Video ceremony overlay controls styling */
+.video-controls-container {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .video-controls-container {
+    bottom: 25px !important;
+    right: 20px !important;
+    left: 20px !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: calc(100% - 40px) !important;
+  }
+  .video-controls-container .cyber-button {
+    padding: 10px 20px !important;
+    font-size: 0.9rem !important;
+    border-radius: 8px !important;
+    margin: 0 !important;
+  }
+}
+
